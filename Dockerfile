@@ -2,17 +2,15 @@ FROM debian:stable-slim
 
 # ENV variables
 ENV DEBIAN_FRONTEND noninteractive
-ENV TZ "America/New_York"
+ENV TZ "Europe/Warsaw"
 ENV CUPSADMIN admin
 ENV CUPSPASSWORD password
 
-
-LABEL org.opencontainers.image.source="https://github.com/anujdatar/cups-docker"
-LABEL org.opencontainers.image.description="CUPS Printer Server"
-LABEL org.opencontainers.image.author="Anuj Datar <anuj.datar@gmail.com>"
-LABEL org.opencontainers.image.url="https://github.com/anujdatar/cups-docker/blob/main/README.md"
+LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
+LABEL org.opencontainers.image.description="Docker CUPS Print Server"
+LABEL org.opencontainers.image.author="CXDezign <contact@cxdezign.com>"
+LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob/main/README.md"
 LABEL org.opencontainers.image.licenses=MIT
-
 
 # Install dependencies
 RUN apt-get update -qq  && apt-get upgrade -qqy \
@@ -23,13 +21,9 @@ RUN apt-get update -qq  && apt-get upgrade -qqy \
     cups-filters \
     printer-driver-all \
     printer-driver-cups-pdf \
-    printer-driver-foo2zjs \
     foomatic-db-compressed-ppds \
     openprinting-ppds \
-    hpijs-ppds \
-    hp-ppd \
-    hplip \
-    avahi-daemon \
+    printer-driver-gutenprint \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -45,7 +39,7 @@ RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && 
     echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
     echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
-# back up cups configs in case used does not add their own
+# Back up cups configs in case user does not add their own
 RUN cp -rp /etc/cups /etc/cups-bak
 VOLUME [ "/etc/cups" ]
 
