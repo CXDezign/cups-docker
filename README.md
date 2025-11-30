@@ -1,14 +1,14 @@
 # Description
 
-Run Dockerized CUPS on a server to share USB printers over the network.
-Built to be used with Raspberry Pi's.
+Run Dockerized CUPS on a server to share USB printers over the network. \
+Built to be used with Raspberry Pi's. \
 Tested and confirmed to be working on:
 - Raspberry Pi 3B+ (`arm/v7`)
 - Raspberry Pi 4 (`arm64/v8`)
 - Raspberry Pi 5 (`arm64/AArch64`)
 
 Image package available from:
-  - Docker Hub: `cxdezign/cups`
+  - [Docker Hub](https://hub.docker.com/repository/docker/cxdezign/cups): `cxdezign/cups`
 
 # Usage
 Use either **Docker Run** or **Docker Compose** to run the Docker image in a container with customised parameters.
