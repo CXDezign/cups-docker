@@ -24,7 +24,7 @@ RUN apt update -qq && apt upgrade -qqy \
     foomatic-db-compressed-ppds \
     openprinting-ppds \
     printer-driver-gutenprint \
-    && apt clean \
+    && apt autoremove \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 631
