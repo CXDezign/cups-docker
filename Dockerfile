@@ -13,9 +13,9 @@ LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob
 LABEL org.opencontainers.image.licenses=MIT
 
 # Dependencies
-RUN apt update \
-    && apt upgrade \
-    && apt install \
+RUN apt-get update
+RUN apt-get upgrade
+RUN apt-get install \
     usbutils \
     cups \
     cups-filters \
@@ -23,9 +23,9 @@ RUN apt update \
     printer-driver-cups-pdf \
     foomatic-db-compressed-ppds \
     openprinting-ppds \
-    printer-driver-gutenprint \
-    && apt autoremove \
-    && rm -rf /var/lib/apt/lists
+    printer-driver-gutenprint
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists
 
 EXPOSE 631
 EXPOSE 5353/udp
