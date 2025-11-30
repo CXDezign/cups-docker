@@ -16,7 +16,6 @@ LABEL org.opencontainers.image.licenses=MIT
 RUN apt update \
     && apt upgrade \
     && apt install \
-    apt-utils \
     usbutils \
     cups \
     cups-filters \
