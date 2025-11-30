@@ -25,7 +25,7 @@ RUN apt update \
     openprinting-ppds \
     printer-driver-gutenprint \
     && apt autoremove \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists
 
 EXPOSE 631
 EXPOSE 5353/udp
