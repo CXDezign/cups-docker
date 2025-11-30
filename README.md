@@ -1,65 +1,57 @@
 # Description
 
-Run a CUPS on a server to share USB printers over network.
+Run Dockerized CUPS on a server to share USB printers over the network.
 Built to be used with Raspberry Pi's.
-Tested and confirmed working on:
+Tested and confirmed to be working on:
 - Raspberry Pi 3B+ (`arm/v7`)
 - Raspberry Pi 4 (`arm64/v8`)
 - Raspberry Pi 5 (`arm64/AArch64`)
 
-Container packages available from Docker Hub
-  - Docker Hub Image: `CXDezign/cups`
+Image package available from:
+  - Docker Hub: `cxdezign/cups`
 
-## Usage
-Quick start with default parameters
-```sh
-docker run -d -p 631:631 --device /dev/bus/usb --name cups CXDezign/cups
-```
+# Usage
+Use either **Docker Run** or **Docker Compose** to run the Docker image in a container with customised parameters.
 
-Customizing your container
-```sh
+## Parameters & Environment Variables
+| Flag          | Parameter         | Default                     | Description |
+| ------------- | ----------------- | --------------------------- | ----------- |
+| `--name`      | `container_name:` | `cups`                      | Preferred Docker container name. |
+| `--device`    | `devices:`        | `/dev/bus/usb:/dev/bus/usb` | Add host device (USB printer) to container. Default passes the whole USB bus in case the USB port on your device changes. Change to a fixed USB port if it will remain unchanged, example: `/dev/bus/usb/001/005`. |
+| `-v`          | `volumes:`        | `cups`                      | Persistent Docker container volume for CUPS configuration files (migration or backup purposes). |
+| `-p`          | `ports:`          | `631`                       | CUPS network port. |
+| `-e USERNAME` | `USERNAME`        | `username`                  | CUPS username. |
+| `-e PASSWORD` | `PASSWORD`        | `password`                  | CUPS password. |
+| `-e TIMEZONE` | `TIMEZONE`        | `Europe/Warsaw`             | Server timezone. Use your preferred [TZ identifier](https://wikipedia.org/wiki/List_of_tz_database_time_zones#List). |
+
+## Docker Run
+```bash
 docker run -d --name cups \
     --restart unless-stopped \
-    -p 631:631 \
     --device /dev/bus/usb \
-    -e CUPSADMIN=admin \
-    -e CUPSPASSWORD=password \
-    -e TZ="Europe/Warsaw" \
+    -p 631:631 \
     -v /etc/cups:/etc/cups \
-    anujdatar/cups
+    -e USERNAME="username" \
+    -e PASSWORD="password" \
+    -e TIMEZONE="Europe/Warsaw" \
+    cxdezign/cups
 ```
 
-### Parameters and defaults
-- `port` Default cups network port `631:631`. Change not recommended unless you know what you're doing
-- `device` -> Used to give docker access to USB printer. Default passes the whole USB bus `/dev/bus/usb`, in case you change the USB port on your device later. change to specific USB port if it will always be fixed, for eg. `/dev/bus/usb/001/005`.
-
-#### Optional parameters
-- `name` -> whatever you want to call your docker image. using `cups` in the example above.
-- `volume` -> adds a persistent volume for CUPS config files if you need to migrate or start a new container with the same settings
-
-Environment variables that can be changed to suit your needs, use the `-e` tag
-| # | Parameter    | Default            | Type   | Description                       |
-| - | ------------ | ------------------ | ------ | --------------------------------- |
-| 1 | TZ           | "Europe/Warsaw"    | string | Time zone of your server          |
-| 2 | CUPSADMIN    | admin              | string | Name of the admin user for server |
-| 3 | CUPSPASSWORD | password           | string | Password for server admin         |
-
-### docker-compose
+## Docker Compose
 ```yaml
-version: "3"
 services:
     cups:
-        image: CXDezign/cups
+        image: cxdezign/cups
         container_name: cups
         restart: unless-stopped
         ports:
-            - "631:631"
+            - 631:631
         devices:
             - /dev/bus/usb:/dev/bus/usb
         environment:
-            - CUPSADMIN=admin
-            - CUPSPASSWORD=password
-            - TZ="Europe/Warsaw"
+            - USERNAME="username"
+            - PASSWORD="password"
+            - TIMEZONE="Europe/Warsaw"
         volumes:
             - /etc/cups:/etc/cups
 ```
