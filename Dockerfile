@@ -3,8 +3,8 @@ FROM debian:trixie-slim
 # ENV Environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TIMEZONE="Europe/Warsaw"
-ENV USERNAME="username"
-ENV PASSWORD="password"
+ENV USERNAME=username
+ENV PASSWORD=password
 
 LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
 LABEL org.opencontainers.image.description="Dockerized CUPS Print Server"
@@ -15,7 +15,11 @@ LABEL org.opencontainers.image.licenses=MIT
 # Dependencies
 RUN apt update -qqy
 RUN apt upgrade -qqy
-RUN apt install cups -y
+RUN apt install -y \
+                cups \
+                printer-driver-gutenprint \
+                hplip \
+                samba
 RUN rm -rf /var/lib/apt/lists
 
 EXPOSE 631
