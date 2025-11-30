@@ -1,10 +1,10 @@
 FROM debian:stable-slim
 
 # ENV Environment variables
-ENV DEBIAN_FRONTEND noninteractive
-ENV TIMEZONE "Europe/Warsaw"
-ENV USERNAME "username"
-ENV PASSWORD "password"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TIMEZONE="Europe/Warsaw"
+ENV USERNAME="username"
+ENV PASSWORD="password"
 
 LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
 LABEL org.opencontainers.image.description="Dockerized CUPS Print Server"
