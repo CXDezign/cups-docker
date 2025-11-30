@@ -15,9 +15,7 @@ LABEL org.opencontainers.image.licenses=MIT
 # Dependencies
 RUN apt-get update
 RUN apt-get upgrade
-RUN apt-get install \
-    usbutils \
-    cups \
+RUN apt-get install cups
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists
 
