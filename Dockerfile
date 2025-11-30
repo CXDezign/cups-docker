@@ -13,8 +13,9 @@ LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob
 LABEL org.opencontainers.image.licenses=MIT
 
 # Dependencies
-RUN apt update -qq && apt upgrade -qqy \
-    && apt install -qqy \
+RUN apt update \
+    && apt upgrade \
+    && apt install \
     apt-utils \
     usbutils \
     cups \
