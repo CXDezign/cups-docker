@@ -18,11 +18,6 @@ RUN apt-get upgrade
 RUN apt-get install \
     usbutils \
     cups \
-    cups-filters \
-    printer-driver-all \
-    printer-driver-cups-pdf \
-    foomatic-db-compressed-ppds \
-    openprinting-ppds
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists
 
