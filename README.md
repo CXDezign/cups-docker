@@ -1,15 +1,19 @@
-# CUPS-docker
+# Description
 
-Run a CUPS print server on a remote machine to share USB printers over WiFi. Built primarily to use with Raspberry Pis as a headless server, but there is no reason this wouldn't work on `amd64` machines. Tested and confirmed working on a Raspberry Pi 3B+ (`arm/v7`) and Raspberry Pi 4 (`arm64/v8`).
+Run a CUPS on a server to share USB printers over network.
+Built to be used with Raspberry Pi's.
+Tested and confirmed working on:
+- Raspberry Pi 3B+ (`arm/v7`)
+- Raspberry Pi 4 (`arm64/v8`)
+- Raspberry Pi 5 (`arm64/AArch64`)
 
-Container packages available from Docker Hub and Github Container Registry (ghcr.io)
-  - Docker Hub Image: `anujdatar/cups`
-  - GHCR Image: `ghcr.io/anujdatar/cups`
+Container packages available from Docker Hub
+  - Docker Hub Image: `CXDezign/cups`
 
 ## Usage
 Quick start with default parameters
 ```sh
-docker run -d -p 631:631 --device /dev/bus/usb --name cups anujdatar/cups
+docker run -d -p 631:631 --device /dev/bus/usb --name cups CXDezign/cups
 ```
 
 Customizing your container
@@ -18,17 +22,16 @@ docker run -d --name cups \
     --restart unless-stopped \
     -p 631:631 \
     --device /dev/bus/usb \
-    -e CUPSADMIN=batman \
-    -e CUPSPASSWORD=batcave_password \
-    -e TZ="America/Gotham" \
-    -v <persistent-config-folder>:/etc/cups \
+    -e CUPSADMIN=admin \
+    -e CUPSPASSWORD=password \
+    -e TZ="Europe/Warsaw" \
+    -v /etc/cups:/etc/cups \
     anujdatar/cups
 ```
-> Note: :P make sure you use valid TZ string, this is just a joke. Also changing the default username and password is highly recommended.
 
 ### Parameters and defaults
-- `port` -> default cups network port `631:631`. Change not recommended unless you know what you're doing
-- `device` -> used to give docker access to USB printer. Default passes the whole USB bus `/dev/bus/usb`, in case you change the USB port on your device later. change to specific USB port if it will always be fixed, for eg. `/dev/bus/usb/001/005`.
+- `port` Default cups network port `631:631`. Change not recommended unless you know what you're doing
+- `device` -> Used to give docker access to USB printer. Default passes the whole USB bus `/dev/bus/usb`, in case you change the USB port on your device later. change to specific USB port if it will always be fixed, for eg. `/dev/bus/usb/001/005`.
 
 #### Optional parameters
 - `name` -> whatever you want to call your docker image. using `cups` in the example above.
@@ -37,7 +40,7 @@ docker run -d --name cups \
 Environment variables that can be changed to suit your needs, use the `-e` tag
 | # | Parameter    | Default            | Type   | Description                       |
 | - | ------------ | ------------------ | ------ | --------------------------------- |
-| 1 | TZ           | "America/New_York" | string | Time zone of your server          |
+| 1 | TZ           | "Europe/Warsaw"    | string | Time zone of your server          |
 | 2 | CUPSADMIN    | admin              | string | Name of the admin user for server |
 | 3 | CUPSPASSWORD | password           | string | Password for server admin         |
 
@@ -46,7 +49,7 @@ Environment variables that can be changed to suit your needs, use the `-e` tag
 version: "3"
 services:
     cups:
-        image: anujdatar/cups
+        image: CXDezign/cups
         container_name: cups
         restart: unless-stopped
         ports:
@@ -54,17 +57,14 @@ services:
         devices:
             - /dev/bus/usb:/dev/bus/usb
         environment:
-            - CUPSADMIN=batman
-            - CUPSPASSWORD=batcave_password
-            - TZ="America/Gotham"
+            - CUPSADMIN=admin
+            - CUPSPASSWORD=password
+            - TZ="Europe/Warsaw"
         volumes:
-            - <persistent-config-path>:/etc/cups
+            - /etc/cups:/etc/cups
 ```
 
-## Server Administration
-You should now be able to access CUPS admin server using the IP address of your headless computer/server http://192.168.xxx.xxx:631, or whatever. If your server has avahi-daemon/mdns running you can use the hostname, http://printer.local:631. (IP and hostname will vary, these are just examples)
+## CUPS Dashboard
+Access the CUPS dashboard using the IP address of your server:
 
-If you are running this on your PC, i.e. not on a headless server, you should be able to log in on http://localhost:631
-
-## Thanks
-Based on the work done by **RagingTiger**: [https://github.com/RagingTiger/cups-airprint](https://github.com/RagingTiger/cups-airprint)
+http://192.168.###.###:631
