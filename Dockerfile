@@ -21,12 +21,24 @@ RUN printf '%s\n' \
 RUN apt update -qqy
 RUN apt upgrade -qqy
 RUN apt install --no-install-recommends -y \
+                whois \
                 nano \
+                usbutils \
+                smbclient \
+                avahi-utils \
                 cups \
-                samba \
-                nano \
+                cups-client \
+                cups-bsd \
+                cups-filters \
+                cups-browsed \
+                printer-driver-all \
+                printer-driver-cups-pdf \
+                foomatic-db-engine \
+                foomatic-db-compressed-ppds \
                 openprinting-ppds \
-                foomatic-db-compressed-ppds
+                hpijs-ppds \
+                hp-ppd \
+                hplip
 EXPOSE 631
 EXPOSE 5353/udp
 
