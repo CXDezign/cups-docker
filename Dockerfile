@@ -13,12 +13,10 @@ LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob
 LABEL org.opencontainers.image.licenses=MIT
 
 # Dependencies
-RUN add-apt-repository ppa:gnome-printing/ppa
 RUN apt update -qqy
 RUN apt upgrade -qqy
 RUN apt install -y \
                 cups \
-                printer-driver-gutenprint \
                 hplip \
                 samba
 RUN rm -rf /var/lib/apt/lists
