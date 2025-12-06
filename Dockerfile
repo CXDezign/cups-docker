@@ -25,7 +25,8 @@ RUN apt install --no-install-recommends -y \
                 cups \
                 samba \
                 nano \
-                openprinting-ppds
+                openprinting-ppds \
+                foomatic-db-compressed-ppds
 EXPOSE 631
 EXPOSE 5353/udp
 
