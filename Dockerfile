@@ -1,5 +1,9 @@
 FROM debian:unstable-slim
 
+# Arguments
+ARG TARGETPLATFORM
+ARG TARGETARCH
+
 # Environment Variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TIMEZONE="Europe/Warsaw"
@@ -40,6 +44,10 @@ RUN apt install --no-install-recommends -y \
                 hpijs-ppds \
                 hp-ppd \
                 hplip
+
+# PPDs
+ADD ./ppd/cnijfilter2_6.80-1_${TARGETARCH}.deb /tmp/cnijfilter2.deb
+RUN apt install -y /tmp/cnijfilter2.deb
 
 # CUPS Default Configuration
 RUN /usr/sbin/cupsd \
