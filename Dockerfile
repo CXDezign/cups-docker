@@ -31,7 +31,8 @@ RUN sed -i 's/<Location \/admin>/<Location \/admin>\n  Allow All\n  Require user
 RUN sed -i 's/<Location \/admin\/conf>/<Location \/admin\/conf>\n  Allow All/' /etc/cups/cupsd.conf
 RUN echo "ServerAlias *" >> /etc/cups/cupsd.conf
 RUN echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
-RUN sudo systemctl restart cups
+RUN service cups restart
+RUN service cups-browsed restart
 
 # Back up cups configs in case user does not add their own
 RUN cp -rp /etc/cups /etc/cups-bak
