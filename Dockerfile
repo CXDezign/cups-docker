@@ -33,6 +33,7 @@ RUN apt install --no-install-recommends -y \
                 cups-browsed \
                 printer-driver-all \
                 printer-driver-cups-pdf \
+                printer-driver-gutenprint \
                 foomatic-db-engine \
                 foomatic-db-compressed-ppds \
                 openprinting-ppds \
