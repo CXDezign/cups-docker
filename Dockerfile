@@ -64,7 +64,6 @@ CMD ["/entrypoint.sh"]
 
 # Service CUPS
 RUN service cups restart
-CMD ["cupsd", "-f"]
 
 # Volume
 VOLUME [ "/etc/cups" ]
