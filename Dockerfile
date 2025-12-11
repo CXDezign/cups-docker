@@ -31,6 +31,8 @@ RUN apt install --no-install-recommends -y \
                 cups-bsd \
                 cups-filters \
                 cups-browsed \
+                sane \
+                sane-airscan \
                 printer-driver-all \
                 printer-driver-cups-pdf \
                 printer-driver-gutenprint \
