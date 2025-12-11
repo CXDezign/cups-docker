@@ -31,8 +31,6 @@ RUN apt install --no-install-recommends -y \
                 cups-bsd \
                 cups-filters \
                 cups-browsed \
-                sane \
-                sane-airscan \
                 printer-driver-all \
                 printer-driver-cups-pdf \
                 printer-driver-gutenprint \
@@ -41,7 +39,10 @@ RUN apt install --no-install-recommends -y \
                 openprinting-ppds \
                 hpijs-ppds \
                 hp-ppd \
-                hplip
+                hplip \
+                sane \
+                sane-airscan \
+                sg3-utils
 
 # PPDs
 ADD ./ppd/cnijfilter2_6.80-1_${TARGETARCH}.deb /tmp/cnijfilter2.deb
