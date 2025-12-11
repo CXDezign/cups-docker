@@ -69,6 +69,7 @@ CMD ["/entrypoint.sh"]
 
 # Backup
 RUN cp -rp /etc/cups /etc/cups.bak
+RUN cp -rp /etc/sane.d /etc/sane.d.bak
 
 # Service CUPS
 RUN service cups restart
@@ -78,6 +79,8 @@ RUN service sane start
 
 # Volume
 VOLUME [ "/etc/cups" ]
+VOLUME [ "/etc/sane.d" ]
 
 # Ports
 EXPOSE 631
+EXPOSE 6566
