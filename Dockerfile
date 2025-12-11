@@ -41,6 +41,7 @@ RUN apt install --no-install-recommends -y \
                 hp-ppd \
                 hplip \
                 sane \
+                sane-utils \
                 sane-airscan \
                 sg3-utils
 
