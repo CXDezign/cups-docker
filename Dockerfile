@@ -12,7 +12,7 @@ ENV PASSWORD=password
 
 # Labels
 LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
-LABEL org.opencontainers.image.description="Dockerized CUPS Print Server"
+LABEL org.opencontainers.image.description="Dockerized Printer (CUPS) Server"
 LABEL org.opencontainers.image.author="CXDezign <contact@cxdezign.com>"
 LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob/main/README.md"
 LABEL org.opencontainers.image.licenses=MIT
@@ -39,11 +39,7 @@ RUN apt install --no-install-recommends -y \
                 openprinting-ppds \
                 hpijs-ppds \
                 hp-ppd \
-                hplip \
-                sane \
-                sane-utils \
-                sane-airscan \
-                sg3-utils
+                hplip
 
 # PPDs
 ADD ./ppd/cnijfilter2_6.80-1_${TARGETARCH}.deb /tmp/cnijfilter2.deb
@@ -69,18 +65,12 @@ CMD ["/entrypoint.sh"]
 
 # Backup
 RUN cp -rp /etc/cups /etc/cups.bak
-RUN cp -rp /etc/sane.d /etc/sane.d.bak
 
 # Service CUPS
 RUN service cups restart
 
-# Service SANE
-RUN saned -D
-
 # Volume
 VOLUME [ "/etc/cups" ]
-VOLUME [ "/etc/sane.d" ]
 
 # Ports
 EXPOSE 631
-EXPOSE 6566
