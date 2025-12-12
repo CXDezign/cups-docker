@@ -75,7 +75,7 @@ RUN cp -rp /etc/sane.d /etc/sane.d.bak
 RUN service cups restart
 
 # Service SANE
-RUN service saned start
+RUN saned -D
 
 # Volume
 VOLUME [ "/etc/cups" ]
