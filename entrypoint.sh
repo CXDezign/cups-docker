@@ -3,15 +3,15 @@
 if [ $(grep -ci $USERNAME /etc/shadow) -eq 0 ]; then
     useradd -r -G lpadmin -M $USERNAME
 
-    # add password
+    # Add Username:Password
     echo $USERNAME:$PASSWORD | chpasswd
 
-    # add tzdata
+    # Add Timezone
     ln -fs /usr/share/zoneinfo/$TIMEZONE /etc/localtime
     dpkg-reconfigure --frontend noninteractive tzdata
 fi
 
-# restore default cups config in case user does not have any
+# Restore default CUPS config if empty
 if [ ! -f /etc/cups/cupsd.conf ]; then
     cp -rpn /etc/cups.bak/* /etc/cups/
 fi
