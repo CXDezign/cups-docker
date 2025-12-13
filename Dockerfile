@@ -12,7 +12,7 @@ ENV PASSWORD=password
 
 # Labels
 LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
-LABEL org.opencontainers.image.description="Dockerized Printer (CUPS) Server"
+LABEL org.opencontainers.image.description="Dockerized Print (CUPS) Server"
 LABEL org.opencontainers.image.author="CXDezign <contact@cxdezign.com>"
 LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob/main/README.md"
 LABEL org.opencontainers.image.licenses=MIT
