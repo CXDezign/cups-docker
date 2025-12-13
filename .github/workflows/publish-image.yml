@@ -1,8 +1,6 @@
 name: Publish to Docker Hub
 
-# Controls when the action will be run
 on:
-  # triggers on push or pull request events on main branch
   push:
     branches: [ main ]
   pull_request:
@@ -12,9 +10,7 @@ on:
 
 jobs:
   build-for-docker-hub:
-    # base container to build on
     runs-on: ubuntu-latest
-    # sequence of tasks in the build process
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -29,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKER_HUB_USER }}/cups
+          images: ${{ secrets.DOCKER_HUB_USER }}/docker-cups
           tags: |
             type=semver,pattern={{version}}
             type=raw,value={{date 'YY.MM.DD'}}
