@@ -9,8 +9,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TIMEZONE="Europe/Warsaw"
 ENV USERNAME=username
 ENV PASSWORD=password
-ENV TARGET_PLATFORM=$TARGETPLATFORM
-ENV TARGET_ARCH=$TARGETARCH
 
 # Labels
 LABEL org.opencontainers.image.source="https://github.com/CXDezign/cups-docker"
@@ -20,7 +18,7 @@ LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob
 LABEL org.opencontainers.image.licenses=MIT
 
 # PPDs
-RUN mv ./ppd/cnijfilter2_6.80-1_${TARGET_ARCH}.deb /tmp/cnijfilter2.deb
+RUN mv ./ppd/cnijfilter2_6.80-1_${TARGETARCH}.deb /tmp/cnijfilter2.deb
 RUN apt install -y /tmp/cnijfilter2.deb
 
 # Dependencies
