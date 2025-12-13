@@ -19,6 +19,10 @@ LABEL org.opencontainers.image.author="CXDezign <contact@cxdezign.com>"
 LABEL org.opencontainers.image.url="https://github.com/CXDezign/cups-docker/blob/main/README.md"
 LABEL org.opencontainers.image.licenses=MIT
 
+# PPDs
+RUN mv ./ppd/cnijfilter2_6.80-1_${TARGET_ARCH}.deb /tmp/cnijfilter2.deb
+RUN apt install -y /tmp/cnijfilter2.deb
+
 # Dependencies
 RUN apt update -qqy
 RUN apt upgrade -qqy
