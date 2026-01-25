@@ -42,13 +42,15 @@ Configure the `docker-compose.yml` file accordingly.
 | Parameter         | Default                     | Description |
 | ----------------- | --------------------------- | ----------- |
 | `container_name`  | `cups`                      | Preferred Docker container name. |
-| `devices`         | `/dev/bus/usb:/dev/bus/usb` | Add host device (USB printer) to container. Default passes the whole USB bus in case the USB port on your device to a fixed USB port if it will remain unchanged, example: `/dev/bus/usb/001/005`. |
-| `volumes`         | `/etc/cups`                 | Persistent Docker volume for CUPS configuration files (Persistence, migration, or backup purposes). |
 | `ports`           | `631`                       | CUPS network port. |
+| `volumes`         | `/etc/cups`                 | Persistent Docker volume for configuration files (Persistence, migration, or backup purposes). |
+| `devices`         | `/dev/bus/usb:/dev/bus/usb` | Add host device (USB printer) to container. Default passes the whole USB bus in case the USB port on your device to a fixed USB port if it will remain unchanged, example: `/dev/bus/usb/001/005`. |
 | `USERNAME`        | `username`                  | Environment username. |
 | `PASSWORD`        | `password`                  | Environment password. |
 | `TIMEZONE`        | `Europe/Warsaw`             | Environment timezone. Use your preferred [TZ identifier](https://wikipedia.org/wiki/List_of_tz_database_time_zones#List). |
 
 ## Access
-Access the CUPS dashboard using the IP address of your server: \
-http://192.168.###.###:631
+CUPS web app is accessible on the defined port of the host machine.
+```
+http://<DOCKER_HOST_IP>:631
+```
