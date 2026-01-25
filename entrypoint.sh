@@ -1,31 +1,41 @@
 #!/bin/bash -ex
 
-# Environment Variables
-set -e
+# Timezone Configuration
+ln -fs /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
+dpkg-reconfigure --frontend noninteractive tzdata
 
-# Default Configuration
-/usr/sbin/cupsd \
-  && while [ ! -f /var/run/cups/cupsd.pid ]; do sleep 1; done \
-  && cupsctl --remote-admin --remote-any --share-printers \
-  && kill $(cat /var/run/cups/cupsd.pid)
-echo "ServerAlias *" >> /etc/cups/cupsd.conf
-echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
+cupsd -f &
+CUPSID=$!
+# Unix Socket Wait
+for _ in {1..100}; do
+    if [ -S /var/run/cups/cups.sock ]; then break; fi
+    sleep 0.1
+done
+# TCP Port Wait
+for _ in {1..50}; do
+    if ss -ltn | grep -q ':631 '; then break; fi
+    sleep 0.1
+done
 
-# Environment Configuration
-if [ $(grep -ci $USERNAME /etc/shadow) -eq 0 ]; then
-    # User Configuration
-    useradd -r -G lpadmin -M $USERNAME
-    echo $USERNAME:$PASSWORD | chpasswd
-
-    # Timezone Configuration
-    ln -fs /usr/share/zoneinfo/$TIMEZONE /etc/localtime
-    dpkg-reconfigure --frontend noninteractive tzdata
+# CUPS Configuration
+if [[ ! -f /etc/cups/.initialized ]]; then
+    cupsctl --remote-admin --remote-any --share-printers
+    touch /etc/cups/.initialized
 fi
 
-# Restore Configurations
-if [ ! -f /etc/cups/cupsd.conf ]; then
-    cp -rpn /etc/cups.bak/* /etc/cups/
+grep -xF 'ServerAlias *' /etc/cups/cupsd.conf || \
+    echo 'ServerAlias *' >> /etc/cups/cupsd.conf
+grep -xF 'DefaultEncryption Never' /etc/cups/cupsd.conf || \
+    echo 'DefaultEncryption Never' >> /etc/cups/cupsd.conf
+
+# User Configuration
+if ! getent shadow "$USERNAME" > /dev/null; then
+    useradd -r -G lpadmin -M "$USERNAME"
+    echo "$USERNAME":"$PASSWORD" | chpasswd
 fi
+
+# Restore Default Configurations
+[[ -f /etc/cups/cupsd.conf ]] || cp -rpn /etc/cups.bak/* /etc/cups/
 
 # Execute
-exec /usr/sbin/cupsd -f
+wait "$CUPSID"
